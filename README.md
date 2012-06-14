@@ -10,6 +10,8 @@ I'll be attaching sketches and notes soon too.
 ## Upcoming Features
 
 * _REDICULOUSLY FAST_ selections by using the **mouse scroll wheel**
+  * Scroll on each radial to just control that radial
+  * Scroll on the center to control all radials at once
 * Use a **drag interface** and **inertia** on supported devices
 * **Timestamps** will be on an outer ring with an **AM/PM button** at the very end
 * **Infinite scrolling** for years
