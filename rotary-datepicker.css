@@ -1,0 +1,130 @@
+/*** RESET ***/
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
+  margin:0;
+  padding:0;
+}
+table {
+  border-collapse:collapse;
+  border-spacing:0;
+}
+fieldset,img { 
+  border:0;
+}
+address,caption,cite,code,dfn,em,strong,th,var {
+  font-style:normal;
+  font-weight:normal;
+}
+ol,ul {
+  list-style:none;
+}
+caption,th {
+  text-align:left;
+}
+h1,h2,h3,h4,h5,h6 {
+  font-size:100%;
+  font-weight:normal;
+}
+q:before,q:after {
+  content:'';
+}
+abbr,acronym { border:0;}
+
+
+/*** ROTARY DATEPICKER ***/
+* {
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+}
+body {
+    margin: 200px 100px;
+}
+input {
+    float: left;
+    width: 220px;
+    height: 22px;
+    padding: 2px;
+}
+.rotaryPicker {
+    position: relative;
+    float: left;
+    overflow: hidden;
+    height: 30px;
+    width: 30px;
+}
+.rotaryPicker.active {
+    padding-top: 170px;
+    padding-left: 300px;
+    margin-top: -170px;    
+    margin-left: -300px;
+    height: 200px;
+}
+.rotaryPicker div {
+    position: absolute;
+    -webkit-transform: rotate(0deg);
+    -webkit-transform-origin: center center;
+    border-radius: 200px;
+}
+.active .container {
+    width: 224px;
+    opacity: 1;
+}
+div.container {
+    border-radius: 0;
+    border: solid 2px blue;
+    background: lightblue;
+    border-radius: 4px;
+    width: 0;
+    height: 26px;
+    right: 30px;
+    opacity: 0;
+}
+.toggle {
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: red;
+    position: absolute;
+    border-radius: 30px;
+}
+ul {
+    position: relative;
+    top: 50%;
+    margin-top: -10px;
+}
+li {
+    transform-origin: right center;
+    -webkit-transform-origin: right center;
+    top: 50%;
+    position: absolute;
+}
+.days {
+    width: 400px;
+    height: 400px;
+    right: -185px;
+    top: 50%;
+    margin-top: -200px;
+}
+.days li {
+    width: 200px;
+}
+.months {
+    width: 300px;
+    height: 300px;
+    right: -135px;
+    top: 50%;
+    margin-top: -150px;
+}
+.months li {
+    width: 150px;
+}
+.years {
+    width: 150px;
+    height: 150px; 
+    right: -60px;
+    top: 50%;
+    margin-left: -75px;
+    margin-top: -75px;
+}
+.years li {
+    width: 75px;            
+}
