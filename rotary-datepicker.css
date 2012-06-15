@@ -52,11 +52,11 @@ input {
     width: 30px;
 }
 .rotaryPicker.active {
-    padding-top: 170px;
+    padding-top: 190px;
     padding-left: 300px;
-    margin-top: -170px;    
+    margin-top: -190px;    
     margin-left: -300px;
-    height: 200px;
+    height: 220px;
 }
 .rotaryPicker div {
     position: absolute;
