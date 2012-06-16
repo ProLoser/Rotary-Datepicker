@@ -1,4 +1,4 @@
-$(function(){
+jQuery(function(){
 var counts = {
     years: 0,
     months: 0,
