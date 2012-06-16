@@ -1,10 +1,4 @@
 /*** ROTARY DATEPICKER ***/
-input.rotoDate {
-    float: left;
-    width: 220px;
-    height: 22px;
-    padding: 2px;
-}
 .rotoDate {
     position: relative;
     float: left;
@@ -19,6 +13,12 @@ input.rotoDate {
     -webkit-transition: all 0.3s ease; 
     margin:0;
     padding:0;
+}
+.rotoDate-target {
+    float: left;
+    width: 220px;
+    height: 22px;
+    padding: 2px;
 }
 .rotoDate.rotoDate-active {
     padding-top: 190px;
@@ -57,6 +57,9 @@ input.rotoDate {
     line-height: 30px;
     font-size: 200%;
     text-align: center;
+}
+.rotoDate-active .rotoDate-toggle {
+    content: '✓';
 }
 .rotoDate ul {
     position: relative;
