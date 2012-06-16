@@ -81,7 +81,7 @@
     function build($this) {
         var $picker;
         
-        $picker = $this.after('<div class="rotoDate"></div>').next('.rotoDate');
+        $picker = $this.addClass('rotoDate-target').after('<div class="rotoDate"></div>').next('.rotoDate');
         
         return $picker;
     };
@@ -94,8 +94,8 @@
             days: 0,
         };
         $.each(opts.dials, function(i, radial){
-            $('.'+radial+' li', $picker).each(function(i, e){
-                var count = $('.'+radial+' li', $picker).length;
+            $('.rotoDate-'+radial+' li', $picker).each(function(i, e){
+                var count = $('.rotoDate-'+radial+' li', $picker).length;
                 rotationSize[radial] = 360/count;
                 $(e).css('transform', 'rotate(' + ( i * rotationSize[radial] ) + 'deg)');
             });
@@ -114,10 +114,10 @@
         $('li', $picker).bind('click.rotoDate', function(e){
             var $this = $(this);
             var rotation = $this.index() * 360 / ($this.siblings().length+1);
-            var section = $this.closest('div').attr('class');
-            rotate[section] = rotation;
+            var radial = $this.closest('div').attr('class').substr(9);
+            rotate[radial] = rotation;
             $this.closest('div').css('transform', 'rotate(-' + rotation + 'deg)');
-            active[section] = $this.text();
+            active[radial] = $this.text();
             refresh();
         });
         
@@ -135,31 +135,36 @@
         
         // Bind scrolling
         if ($.fn.mousewheel && opts.scroll) {
-            $('.'+opts.dials.join(', .')).bind('mousewheel.rotoDate', function(e, delta){
-                var thisClass = $(this).attr('class');
-                var $this = $(this);
+            $('.rotoDate-'+opts.dials.join(', .rotoDate-')).bind('mousewheel.rotoDate', function(e, delta){
+                var $e = $(e);
+                var radialClass = $e.attr('class');
+                var radial = radialClass.substr(9);
                 e.preventDefault();
                 if (delta > 0) {
-                    rotate[thisClass] += rotationSize[thisClass];
+                    rotate[radial] += rotationSize[radial];
                 } else if (delta < 0) {
-                    rotate[thisClass] -= rotationSize[thisClass];
-                    if (rotate[thisClass] < 0) {
-                        rotate[thisClass] = 0;
+                    rotate[thisClass] -= rotationSize[radial];
+                    if (rotate[radial] < 0) {
+                        rotate[radial] = 0;
                     }
                 }
-                var item = Math.round((rotate[thisClass] % 360) / rotationSize[thisClass]);
-                if (item > $('.'+thisClass+' li', $picker).length) {
+                var item = Math.round((rotate[radial] % 360) / rotationSize[radial]);
+                if (item > $('.'+radialClass+' li', $picker).length) {
                     item = 0;
                 }
-                active[thisClass] = $('.'+thisClass+' li', $picker).eq(item).text();
+                active[radial] = $('.'+radialClass+' li', $picker).eq(item).text();
                 refresh();
-                $this.css('transform', 'rotate(-' + rotate[thisClass] + 'deg)');
+                $this.css('transform', 'rotate(-' + rotate[radial] + 'deg)');
             });
         }
     }
     
     function refresh($this) {
-        $('input', $this).val(active.days + ' ' + active.months + ' ' + active.years);
+        var items = [];
+        $.each(active, function(i, item) {
+          items.push(item);
+        });
+        $this.val(items.join(' - '));
     }
 
 })(jQuery);
