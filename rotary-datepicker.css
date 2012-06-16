@@ -54,6 +54,9 @@ input.rotoDate {
     background: red;
     position: absolute;
     border-radius: 30px;
+    line-height: 30px;
+    font-size: 200%;
+    text-align: center;
 }
 .rotoDate ul {
     position: relative;
