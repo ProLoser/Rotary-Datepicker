@@ -36,8 +36,6 @@
 				days: ''
 			}
 			
-			this.$input = $(this);
-
 			this.$picker = build();
 
 			this.rotationSize = calculate();
@@ -81,7 +79,7 @@
 
 			$picker.append('<a class="rotoDate-toggle"></a>');
 
-			this.$input.addClass('rotoDate-target').after($picker);
+			this.element.addClass('rotoDate-target').after($picker);
 
 			return $picker;
 		},
@@ -105,7 +103,7 @@
 			// Bind Toggle Button
 			$('.rotoDate-toggle', this.$picker).bind('click.rotoDate', function(e){
 				e.preventDefault();
-				this.$input.toggleClass('rotoDate-active');
+				this.element.toggleClass('rotoDate-active');
 				this.$picker.toggleClass('rotoDate-active');
 			});
 
@@ -121,7 +119,7 @@
 			});
 
 			// Bind Input Focus
-			this.$input.bind('focus.rotoDate', function(){
+			this.element.bind('focus.rotoDate', function(){
 				$('.rotoDate').addClass('rotoDate-active'); 
 			});
 
@@ -168,7 +166,7 @@
 			$.each(this.active, function(i, item) {
 				items.push(item);
 			});
-			this.$input.val(items.join(' - '));
+			this.element.val(items.join(' - '));
 		},
 		destroy : function() {
 			$.Widget.prototype.destroy.call(this);
