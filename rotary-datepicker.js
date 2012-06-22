@@ -21,7 +21,7 @@
 		},
 		_setOption: function(key, value) {
 			// Use the _setOption method to respond to changes to options
-			$.Widget.prototype._setOption.apply(this,arguments)
+			$.Widget.prototype._setOption.apply(this,arguments);
 		},
 		_create : function() {
 			this.rotate = {
@@ -34,13 +34,18 @@
 				years: '',
 				months: '',
 				days: ''
-			}
+			};
 			
 			this.$picker = build();
 
 			this.rotationSize = calculate();
 
 			bind();
+		},
+		_destroy : function() {
+			this.element.removeClass('.rotoDate .rotoDate-active');
+			this.$picker.remove();
+			$.Widget.prototype.destroy.call(this);
 		},
 		_build : function() {
 			var $picker, $group, n, 
@@ -88,7 +93,7 @@
 			var rotationSize = {
 				years: 0,
 				months: 0,
-				days: 0,
+				days: 0
 			};
 			$.each(this.options.dials, function(i, radial){
 				$('.rotoDate-'+radial+' li', this.$picker).each(function(i, elm){
@@ -101,42 +106,44 @@
 		},
 		_bind : function() {
 			// Bind Toggle Button
-			$('.rotoDate-toggle', this.$picker).bind('click.rotoDate', function(e){
-				e.preventDefault();
-				this.element.toggleClass('rotoDate-active');
-				this.$picker.toggleClass('rotoDate-active');
+			this._on({
+				'focus' : 'open'
 			});
-
 			// Bind item Clicks
-			$('li', this.$picker).bind('click.rotoDate', function(e){
-				var $li = $(this);
-				var rotation = $li.index() * 360 / ($li.siblings().length+1);
-				var radial = $li.closest('div').attr('class').substr(9);
-				this.rotate[radial] = rotation;
-				rotator($li.closest('div'), rotation);
-				this.active[radial] = $li.text();
-				refresh();
-			});
-
-			// Bind Input Focus
-			this.element.bind('focus.rotoDate', function(){
-				$('.rotoDate').addClass('rotoDate-active'); 
-			});
-
-			// Bind 'cancel' keypress
-			$(window).bind('keypress.rotoDate', function(e){
-				if (e.which == 27){
-					$('.rotoDate').removeClass('rotoDate-active');
+			this._on(this.$picker, {
+				'click .rotoDate-toggle' : function(event){
+					this.toggle();
+					event.preventDefault();
+				},
+				'click li' : function(event, elm) {
+					var $li = $(elm);
+					var rotation = $li.index() * 360 / ($li.siblings().length+1);
+					var radial = $li.closest('div').attr('class').substr(9);
+					this.rotate[radial] = rotation;
+					rotator($li.closest('div'), rotation);
+					this.active[radial] = $li.text();
+					refresh();
 				}
 			});
 
+			// Bind 'cancel' keypress
+			this._on(window, { 'keyup' : function(event) {
+				if ( this.options.closeOnEscape && !event.isDefaultPrevented() && event.keyCode &&
+					event.keyCode === 27 ) {
+					this.close();
+					event.preventDefault();
+				}
+			} });
+			
 			// Bind scrolling
 			if ($.fn.mousewheel && this.options.scroll) {
-				$('.rotoDate-'+this.options.dials.join(', .rotoDate-')).bind('mousewheel.rotoDate', function(e, delta){
-					var $e = $(this);
+				var dials = this.options.dials.join(', .rotoDate-');
+				var events = {};
+				events['mousewheel .rotoDate-'+dials] = function(event, delta, elm) {
+					event.preventDefault();
+					var $elm = $(elm);
 					var radialClass = $e.attr('class');
 					var radial = radialClass.substr(9);
-					e.preventDefault();
 					if (delta > 0) {
 						this.rotate[radial] += this.rotationSize[radial];
 					} else if (delta < 0) {
@@ -151,8 +158,9 @@
 					}
 					this.active[radial] = $('.'+radialClass+' li', this.$picker).eq(item).text();
 					refresh();
-					rotator($e, this.rotate[radial]);
-				});
+					rotator($elm, this.rotate[radial]);
+				};
+				this._on(this.picker, events);
 			}
 		},
 		_rotator : function($elm, rotation) {
@@ -168,8 +176,20 @@
 			});
 			this.element.val(items.join(' - '));
 		},
-		destroy : function() {
-			$.Widget.prototype.destroy.call(this);
+		open : function() {
+			this.element.addClass('rotoDate-active');
+			this.$picker.addClass('rotoDate-active');
+		},
+		close : function() {
+			this.element.removeClass('rotoDate-active');
+			this.$picker.removeClass('rotoDate-active');
+		},
+		toggle : function() {
+			if (this.element.hasClass('rotoDate-active')) {
+				this.close();
+			} else {
+				this.open();
+			}
 		}
 	});
 	
