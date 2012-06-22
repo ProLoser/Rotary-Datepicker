@@ -79,9 +79,43 @@
     
     // private function that can only be used within the plugin
     function build($this) {
-        var $picker;
+        var $picker, $group, n, 
+			months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
         
-        $picker = $this.addClass('rotoDate-target').after('<div class="rotoDate"></div>').next('.rotoDate');
+        $picker = $('<div class="rotoDate"></div>');
+		
+		$picker.append('<div class="rotoDate-container"></div>');
+		
+		// Adding Days
+		$group = $('<ul></ul>');
+		n = 30;
+		while (n--) {
+			$group.prepend('<li>'+n+'</li>');
+		}
+		$group = $group.wrap('<div class="rotoDate-days" />');
+		$picker.append($group);
+		
+		// Adding Months
+		$group = $('<ul></ul>');
+		n = months.length;
+		while (n--) {
+			$group.prepend('<li>'+months[n]+'</li>');
+		}
+		$group = $group.wrap('<div class="rotoDate-years" />');
+		$picker.append($group);
+		
+		// Adding Years
+		$group = $('<ul></ul>');
+		n = 2012;
+		while (n > 2007, n--) {
+			$group.prepend('<li>'+n+'</li>');
+		}
+		$group = $group.wrap('<div class="rotoDate-years" />');
+		$picker.append($group);
+		
+		$picker.append('<div class="rotoDate-toggle"></div>');
+
+		$picker = $this.addClass('rotoDate-target').after($picker).next('.rotoDate');
         
         return $picker;
     };
@@ -105,7 +139,7 @@
     
     function bind($this, $picker) {
         // Bind Toggle Button
-        $('.toggle', $picker).bind('click.rotoDate', function(e){
+        $('.rotoDate-toggle', $picker).bind('click.rotoDate', function(e){
             e.preventDefault();
             $('.rotoDate').toggleClass('rotoDate-active');
         });
