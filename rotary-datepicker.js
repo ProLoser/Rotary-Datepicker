@@ -27,7 +27,11 @@
     // plugin defaults
     $.fn.rotoDate.defaults = {
         scroll: true,
-        dials: ['years', 'months', 'days'] // 'hours', 'minutes', 'pm' coming soon...
+        dials: ['days', 'months', 'years'], // 'hours', 'minutes', 'pm' coming soon...
+		years: {
+			start: 2008,
+			stop: 2012
+		}
     };
   
     var methods = {
@@ -43,11 +47,11 @@
                 
                 var $this = $(this);
                 
-                var $picker = build($this);
+                var $picker = build($this, opts);
                 
                 var rotationSize = calculate($this, $picker, opts);
                 
-                bind($this, $picker, opts);
+                bind($this, $picker, opts, rotationSize);
             });
         },
         show : function( ) {
@@ -78,7 +82,7 @@
     }
     
     // private function that can only be used within the plugin
-    function build($this) {
+    function build($this, opts) {
         var $picker, $group, n, 
 			months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
         
@@ -106,8 +110,8 @@
 		
 		// Adding Years
 		$group = $('<ul></ul>');
-		n = 2013;
-		while (n--, n > 2006) {
+		n = opts.years.stop + 1;
+		while (n--, n > opts.years.start - 1) {
 			$group.prepend('<li>'+n+'</li>');
 		}
 		$picker.append($group);
@@ -120,6 +124,13 @@
         return $picker;
     };
     
+	function rotator($elm, rotation) {
+        $elm.css('transform', 'rotate(' + rotation + 'deg)');
+        $elm.css('oTransform', 'rotate(' + rotation + 'deg)');
+        $elm.css('mozTransform', 'rotate(' + rotation + 'deg)');
+        $elm.css('webkitTransform', 'rotate(' + rotation + 'deg)');
+	}
+	
     function calculate($this, $picker, opts) {
         // The amount each dial must rotate for 1 step
         var rotationSize = {
@@ -131,13 +142,14 @@
             $('.rotoDate-'+radial+' li', $picker).each(function(i, elm){
                 var count = $('.rotoDate-'+radial+' li', $picker).length;
                 rotationSize[radial] = 360/count;
-                $(elm).css('transform', 'rotate(' + ( i * rotationSize[radial] ) + 'deg)');
+				rotator($(elm), i * rotationSize[radial]);
             });
         });
         return rotationSize;
     }
+
     
-    function bind($this, $picker, opts) {
+    function bind($this, $picker, opts, rotationSize) {
         // Bind Toggle Button
         $('.rotoDate-toggle', $picker).bind('click.rotoDate', function(e){
             e.preventDefault();
@@ -150,9 +162,9 @@
             var rotation = $this.index() * 360 / ($this.siblings().length+1);
             var radial = $this.closest('div').attr('class').substr(9);
             rotate[radial] = rotation;
-            $this.closest('div').css('transform', 'rotate(-' + rotation + 'deg)');
+            rotator($this.closest('div'), rotation);
             active[radial] = $this.text();
-            refresh();
+            refresh($this);
         });
         
         // Bind Input Focus
@@ -170,14 +182,14 @@
         // Bind scrolling
         if ($.fn.mousewheel && opts.scroll) {
             $('.rotoDate-'+opts.dials.join(', .rotoDate-')).bind('mousewheel.rotoDate', function(e, delta){
-                var $e = $(e);
+                var $e = $(this);
                 var radialClass = $e.attr('class');
                 var radial = radialClass.substr(9);
                 e.preventDefault();
                 if (delta > 0) {
                     rotate[radial] += rotationSize[radial];
                 } else if (delta < 0) {
-                    rotate[thisClass] -= rotationSize[radial];
+                    rotate[radial] -= rotationSize[radial];
                     if (rotate[radial] < 0) {
                         rotate[radial] = 0;
                     }
@@ -187,8 +199,8 @@
                     item = 0;
                 }
                 active[radial] = $('.'+radialClass+' li', $picker).eq(item).text();
-                refresh();
-                $this.css('transform', 'rotate(-' + rotate[radial] + 'deg)');
+                refresh($this);
+                rotator($e, rotate[radial]);
             });
         }
     }

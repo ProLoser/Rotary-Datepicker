@@ -6,7 +6,7 @@
 	height: 30px;
 	width: 30px;
 }
-.rotoDate * {
+.rotoDate, .rotoDate * {
 	transition: all 0.3s ease;
 	-o-transition: all 0.3s ease;
 	-moz-transition: all 0.3s ease;
