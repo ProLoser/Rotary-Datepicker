@@ -45,9 +45,9 @@
                 
                 var $picker = build($this);
                 
-                var rotationSize = calculate($this);
+                var rotationSize = calculate($this, $picker, opts);
                 
-                bind($this);
+                bind($this, $picker, opts);
             });
         },
         show : function( ) {
@@ -88,12 +88,12 @@
 		
 		// Adding Days
 		$group = $('<ul></ul>');
-		n = 30;
-		while (n--) {
+		n = 32;
+		while (--n) {
 			$group.prepend('<li>'+n+'</li>');
 		}
-		$group = $group.wrap('<div class="rotoDate-days" />');
 		$picker.append($group);
+		$group = $group.wrap('<div class="rotoDate-days" />');
 		
 		// Adding Months
 		$group = $('<ul></ul>');
@@ -101,26 +101,26 @@
 		while (n--) {
 			$group.prepend('<li>'+months[n]+'</li>');
 		}
-		$group = $group.wrap('<div class="rotoDate-years" />');
 		$picker.append($group);
+		$group = $group.wrap('<div class="rotoDate-months" />');
 		
 		// Adding Years
 		$group = $('<ul></ul>');
-		n = 2012;
-		while (n > 2007, n--) {
+		n = 2013;
+		while (n--, n > 2006) {
 			$group.prepend('<li>'+n+'</li>');
 		}
-		$group = $group.wrap('<div class="rotoDate-years" />');
 		$picker.append($group);
+		$group = $group.wrap('<div class="rotoDate-years" />');
 		
 		$picker.append('<div class="rotoDate-toggle"></div>');
 
-		$picker = $this.addClass('rotoDate-target').after($picker).next('.rotoDate');
+		$this.addClass('rotoDate-target').after($picker);
         
         return $picker;
     };
     
-    function calculate($this) {
+    function calculate($this, $picker, opts) {
         // The amount each dial must rotate for 1 step
         var rotationSize = {
             years: 0,
@@ -128,16 +128,16 @@
             days: 0,
         };
         $.each(opts.dials, function(i, radial){
-            $('.rotoDate-'+radial+' li', $picker).each(function(i, e){
+            $('.rotoDate-'+radial+' li', $picker).each(function(i, elm){
                 var count = $('.rotoDate-'+radial+' li', $picker).length;
                 rotationSize[radial] = 360/count;
-                $(e).css('transform', 'rotate(' + ( i * rotationSize[radial] ) + 'deg)');
+                $(elm).css('transform', 'rotate(' + ( i * rotationSize[radial] ) + 'deg)');
             });
         });
         return rotationSize;
     }
     
-    function bind($this, $picker) {
+    function bind($this, $picker, opts) {
         // Bind Toggle Button
         $('.rotoDate-toggle', $picker).bind('click.rotoDate', function(e){
             e.preventDefault();

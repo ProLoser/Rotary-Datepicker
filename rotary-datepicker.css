@@ -1,108 +1,117 @@
 /*** ROTARY DATEPICKER ***/
 .rotoDate {
-    position: relative;
-    float: left;
-    overflow: hidden;
-    height: 30px;
-    width: 30px;
+	position: relative;
+	float: left;
+	overflow: hidden;
+	height: 30px;
+	width: 30px;
 }
 .rotoDate * {
-    transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -webkit-transition: all 0.3s ease; 
-    margin:0;
-    padding:0;
+	transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-webkit-transition: all 0.3s ease; 
+	margin:0;
+	padding:0;
 }
 .rotoDate-target {
-    float: left;
-    width: 220px;
-    height: 22px;
-    padding: 2px;
+	float: left;
+	width: 220px;
+	height: 22px;
+	padding: 2px;
 }
 .rotoDate.rotoDate-active {
-    padding-top: 190px;
-    padding-left: 300px;
-    margin-top: -190px;    
-    margin-left: -300px;
-    height: 220px;
+	padding-top: 190px;
+	padding-left: 300px;
+	margin-top: -190px;    
+	margin-left: -300px;
+	height: 220px;
 }
 .rotoDate div {
-    position: absolute;
-    -webkit-transform: rotate(0deg);
-    -webkit-transform-origin: center center;
-    border-radius: 200px;
+	position: absolute;
+	transform: rotate(0deg);
+	transform-origin: center center;
+	-moz-transform: rotate(0deg);
+	-moz-transform-origin: center center;
+	-webkit-transform: rotate(0deg);
+	-webkit-transform-origin: center center;
+	border-radius: 200px;
+	-moz-border-radius: 200px;
+	-webkit-border-radius: 200px;
 }
 .rotoDate-active .rotoDate-container {
-    width: 224px;
-    opacity: 1;
+	width: 224px;
+	opacity: 1;
 }
-.rotoDate-container {
-    border-radius: 0;
-    border: solid 2px blue;
-    background: lightblue;
-    border-radius: 4px;
-    width: 0;
-    height: 26px;
-    right: 30px;
-    opacity: 0;
+div.rotoDate-toggle {
+	display: block;
+	width: 30px;
+	height: 30px;
+	background: red;
+	position: absolute;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	line-height: 30px;
+	font-size: 200%;
+	text-align: center;
 }
-.rotoDate-toggle {
-    display: block;
-    width: 30px;
-    height: 30px;
-    background: red;
-    position: absolute;
-    border-radius: 30px;
-    line-height: 30px;
-    font-size: 200%;
-    text-align: center;
+div.rotoDate-container {
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	border: solid 2px blue;
+	background: lightblue;
+	width: 0;
+	height: 26px;
+	right: 30px;
+	opacity: 0;
 }
 .rotoDate-active .rotoDate-toggle {
-    content: '✓';
+	content: '✓';
 }
 .rotoDate ul {
-    position: relative;
-    top: 50%;
-    list-style:none;
-    margin-top: -10px;
+	position: relative;
+	top: 50%;
+	list-style: none;
+	margin-top: -10px;
 }
 .rotoDate li {
-    transform-origin: right center;
-    -o-transform-origin: right center;
-    -moz-transform-origin: right center;
-    -webkit-transform-origin: right center;
-    top: 50%;
-    position: absolute;
+	transform-origin: right center;
+	-o-transform-origin: right center;
+	-moz-transform-origin: right center;
+	-webkit-transform-origin: right center;
+	top: 50%;
+	position: absolute;
 }
 .rotoDate-days {
-    width: 400px;
-    height: 400px;
-    right: -185px;
-    top: 50%;
-    margin-top: -200px;
+	width: 400px;
+	height: 400px;
+	right: -185px;
+	top: 50%;
+	margin-top: -200px;
 }
 .rotoDate-days li {
-    width: 200px;
+	width: 200px;
 }
 .rotoDate-months {
-    width: 300px;
-    height: 300px;
-    right: -135px;
-    top: 50%;
-    margin-top: -150px;
+	width: 300px;
+	height: 300px;
+	right: -135px;
+	top: 50%;
+	margin-top: -150px;
 }
 .rotoDate-months li {
-    width: 150px;
+	width: 150px;
 }
 .rotoDate-years {
-    width: 150px;
-    height: 150px; 
-    right: -60px;
-    top: 50%;
-    margin-left: -75px;
-    margin-top: -75px;
+	width: 150px;
+	height: 150px; 
+	right: -60px;
+	top: 50%;
+	margin-left: -75px;
+	margin-top: -75px;
 }
 .rotoDate-years li {
-    width: 75px;            
+	width: 75px;            
 }
