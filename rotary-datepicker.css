@@ -7,10 +7,10 @@
 	width: 30px;
 }
 .rotoDate, .rotoDate * {
-	transition: all 0.3s ease;
-	-o-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease;
-	-webkit-transition: all 0.3s ease; 
+	transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-webkit-transition: all 0.5s ease; 
 	margin:0;
 	padding:0;
 }
@@ -43,7 +43,7 @@
 	width: 224px;
 	opacity: 1;
 }
-div.rotoDate-toggle {
+.rotoDate-toggle {
 	display: block;
 	width: 30px;
 	height: 30px;
@@ -67,7 +67,7 @@ div.rotoDate-container {
 	right: 30px;
 	opacity: 0;
 }
-.rotoDate-active .rotoDate-toggle {
+.rotoDate-active .rotoDate-toggle:before {
 	content: '✓';
 }
 .rotoDate ul {
