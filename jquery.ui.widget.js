@@ -349,7 +349,7 @@ $.Widget.prototype = {
 		// no element argument, shuffle and use this.element
 		if ( !handlers ) {
 			handlers = element;
-			element = this.element;
+			element = null;
 		} else {
 			// accept selectors, DOM elements
 			element = $( element );
@@ -380,9 +380,9 @@ $.Widget.prototype = {
 				eventName = match[1] + instance.eventNamespace,
 				selector = match[2];
 			if ( selector ) {
-				instance.widget().delegate( selector, eventName, handlerProxy );
+				(element || instance.widget()).delegate( selector, eventName, handlerProxy );
 			} else {
-				element.bind( eventName, handlerProxy );
+				(element || instance.element).bind( eventName, handlerProxy );
 			}
 		});
 	},

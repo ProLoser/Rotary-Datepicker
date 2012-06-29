@@ -36,11 +36,11 @@
 				days: ''
 			};
 			
-			this.$picker = build();
+			this.$picker = this._build();
 
-			this.rotationSize = calculate();
+			this.rotationSize = this._calculate();
 
-			bind();
+			this._bind();
 		},
 		_destroy : function() {
 			this.element.removeClass('.rotoDate .rotoDate-active');
@@ -75,8 +75,8 @@
 
 			// Adding Years
 			$group = $('<ul></ul>');
-			n = opts.years.stop + 1;
-			while (n--, n > opts.years.start - 1) {
+			n = this.options.years.stop + 1;
+			while (n--, n > this.options.years.start - 1) {
 				$group.prepend('<li>'+n+'</li>');
 			}
 			$picker.append($group);
@@ -94,12 +94,12 @@
 				years: 0,
 				months: 0,
 				days: 0
-			};
+			}, that = this;
 			$.each(this.options.dials, function(i, radial){
-				$('.rotoDate-'+radial+' li', this.$picker).each(function(i, elm){
-					var count = $('.rotoDate-'+radial+' li', this.$picker).length;
+				$('.rotoDate-'+radial+' li', that.$picker).each(function(i, elm){
+					var count = $('.rotoDate-'+radial+' li', that.$picker).length;
 					rotationSize[radial] = 360/count;
-					rotator($(elm), i * rotationSize[radial]);
+					that._rotator($(elm), i * rotationSize[radial]);
 				});
 			});
 			return rotationSize;
@@ -116,18 +116,18 @@
 					event.preventDefault();
 				},
 				'click li' : function(event, elm) {
-					var $li = $(elm);
+					var $li = $(event.currentTarget);
 					var rotation = $li.index() * 360 / ($li.siblings().length+1);
 					var radial = $li.closest('div').attr('class').substr(9);
 					this.rotate[radial] = rotation;
-					rotator($li.closest('div'), rotation);
+					this._rotator($li.closest('div'), rotation);
 					this.active[radial] = $li.text();
-					refresh();
+					this._refresh();
 				}
 			});
 
 			// Bind 'cancel' keypress
-			this._on(window, { 'keyup' : function(event) {
+			this._on(this.document, { 'keyup' : function(event) {
 				if ( this.options.closeOnEscape && !event.isDefaultPrevented() && event.keyCode &&
 					event.keyCode === 27 ) {
 					this.close();
@@ -139,10 +139,10 @@
 			if ($.fn.mousewheel && this.options.scroll) {
 				var dials = this.options.dials.join(', .rotoDate-');
 				var events = {};
-				events['mousewheel .rotoDate-'+dials] = function(event, delta, elm) {
+				events['mousewheel .rotoDate-'+dials] = function(event, delta) {
 					event.preventDefault();
-					var $elm = $(elm);
-					var radialClass = $e.attr('class');
+					var $elm = $(event.currentTarget);
+					var radialClass = $elm.attr('class');
 					var radial = radialClass.substr(9);
 					if (delta > 0) {
 						this.rotate[radial] += this.rotationSize[radial];
@@ -157,10 +157,10 @@
 						item = 0;
 					}
 					this.active[radial] = $('.'+radialClass+' li', this.$picker).eq(item).text();
-					refresh();
-					rotator($elm, this.rotate[radial]);
+					this._refresh();
+					this._rotator($elm, this.rotate[radial]);
 				};
-				this._on(this.picker, events);
+				this._on(this.$picker, events);
 			}
 		},
 		_rotator : function($elm, rotation) {
