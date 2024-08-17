@@ -4,7 +4,9 @@ Rotary-Datepicker
 
 jQuery Rotary Datepicker - an AWESOME new take on the calendar
 
-## Upcoming Features
+<img width="360" alt="image" src="https://github.com/user-attachments/assets/a545903e-fbe1-4429-a126-47ac6cca16ed">
+
+## Features
 
 * _REDICULOUSLY FAST_ selections by using the **mouse scroll wheel**
  * Scroll on each radial to just control that radial
